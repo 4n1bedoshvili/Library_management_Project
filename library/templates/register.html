@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: left;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2e2e2e;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        form label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        form button {
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+            font-size: 1rem;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #66bb6a;
+        }
+
+        .password-requirements {
+            margin: 10px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #666;
+            display: none;
+        }
+
+        .password-requirements ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .password-requirements ul li {
+            list-style-type: disc;
+        }
+
+        p {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        p a {
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordField = document.querySelector("input[name='password']");
+            const requirements = document.querySelector(".password-requirements");
+
+            passwordField.addEventListener("input", function () {
+                if (passwordField.value) {
+                    requirements.style.display = "block";
+                } else {
+                    requirements.style.display = "none";
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.username.label_tag }} {{ form.username }}
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.password1.label_tag }} {{ form.password1 }}
+            {{ form.password2.label_tag }} {{ form.password2 }}
+
+            <div class="password-requirements">
+                <p>Password must meet the following requirements:</p>
+                <ul>
+                    <li>At least 8 characters</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>

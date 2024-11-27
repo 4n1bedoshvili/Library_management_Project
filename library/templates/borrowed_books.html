@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowed Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        header {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #3f51b5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Borrowed Books</h1>
+    </header>
+    <main>
+        {% if reservations %}
+            <ul>
+                {% for reservation in reservations %}
+                    <li>
+                        <strong>{{ reservation.book.title }}</strong><br>
+                        Borrowed on: {{ reservation.borrowed_at|date:"d M Y H:i" }}<br>
+                        Due date: {{ reservation.due_date|date:"d M Y H:i" }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have no borrowed books at the moment.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Books List</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f9;
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: #4caf50;  /* Main green color */
+            width: 100%;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        nav {
+            margin: 20px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        nav form {
+            display: inline-block;
+        }
+
+        nav input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        nav button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4caf50;  /* Main green color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 5px;
+        }
+
+        nav button:hover {
+            background-color: #45a049;  /* Darker green */
+        }
+
+        main {
+            background: #ffffff;  /* White background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .book-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .book-list li {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-list li a {
+            color: #4caf50;  /* Main green color */
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .book-list li a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            background-color: #4caf50;  /* Main green color */
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #45a049;  /* Darker green */
+        }
+
+        .pagination span {
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Available Books</h1>
+    </header>
+    <nav>
+        <form method="get" action="{% url 'book_list' %}">
+            <input type="text" name="search" placeholder="Search by title" value="{{ request.GET.search }}">
+            <button type="submit">Search</button>
+        </form>
+    </nav>
+    <main>
+        {% if page_obj %}
+            <ul class="book-list">
+                {% for book in page_obj %}
+                    <li>
+                        <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No books found.</p>
+        {% endif %}
+
+        <div class="pagination">
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            <div>
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>
